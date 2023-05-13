@@ -1,0 +1,5 @@
+1,Wooden Sword,4,59
+2,Stone Sword,5,131
+3,Iron Sword,6,250
+4,Golden Sword,4,32
+5,Diamond Sword,7,1561
