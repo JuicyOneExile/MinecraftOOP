@@ -1,5 +1,8 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Player extends Entity {
 
@@ -18,10 +21,15 @@ public class Player extends Entity {
         // Player attack logic
     }
 
-    public void render(Graphics g) {
-        g.setColor(Color.RED);
-        g.fillRect(x, z, 1, 1);
+    public void render(Graphics g) throws IOException {
+        BufferedImage image = ImageIO.read(Player.class.getResourceAsStream("/canvas.png"));
+        BufferedImage resized = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resized.createGraphics();
+        g2d.drawImage(image, 0, 0, 10, 10, null);
+        g2d.dispose();
+        g.drawImage(resized, x, z, null);
     }
+
 
 
 
@@ -54,5 +62,13 @@ public class Player extends Entity {
         if (key == KeyEvent.VK_D) {
             move(1, 0); // Move right
         }
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getZ() {
+        return z;
     }
 }

@@ -1,21 +1,31 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class WorldGenerator {
     private int[][] world;
     private int width;
     private int height;
+    private BufferedImage blockImage;
 
     public WorldGenerator(int width, int height) {
         this.width = width;
         this.height = height;
         this.world = new int[width][height];
+        try {
+            blockImage = ImageIO.read(WorldGenerator.class.getResourceAsStream("/grassblock.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         generateWorld();
+
     }
 
     private void generateWorld() {
         for(int x = 0; x < width; x++){
             for(int z = 0; z < height; z++){
-                // Set every tile to grass
+                // Set every block to grass
                 world[x][z] = 1;
             }
         }
@@ -37,17 +47,17 @@ public class WorldGenerator {
     }
 
     public void render(Graphics g) {
-        int tileSize = 10; // size of each tile in pixels
+        int blockSize = 10;
         for (int x = 0; x < width; x++) {
             for (int z = 0; z < height; z++) {
-                int tileX = x * tileSize;
-                int tileZ = z * tileSize;
-                g.setColor(new Color(50, 200, 50)); // grass color
-                g.fillRect(tileX, tileZ, tileSize, tileSize);
-                g.setColor(Color.BLACK); // outline color
-                g.drawRect(tileX, tileZ, tileSize, tileSize);
+                int tileX = x * blockSize;
+                int tileZ = z * blockSize;
+                g.drawImage(blockImage, tileX, tileZ, blockSize, blockSize, null);
+                g.setColor(Color.BLACK);
+                g.drawRect(tileX, tileZ, blockSize, blockSize);
             }
         }
     }
+
 
 }

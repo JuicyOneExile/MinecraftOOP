@@ -5,14 +5,15 @@ import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable {
 
     private static final long serialVersionUID = 1L;
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int WIDTH = 500;
+    private static final int HEIGHT = 500;
     private static final String TITLE = "SandBoxPewPew";
 
     private boolean running = false;
@@ -23,7 +24,7 @@ public class Game extends Canvas implements Runnable {
     public Game() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         addKeyListener(new KeyboardInput());
-        world = new WorldGenerator(50, 50);
+        world = new WorldGenerator(500, 500);
         player = new Player(1, "Player", 100, 10, world);
     }
 
@@ -54,13 +55,17 @@ public class Game extends Canvas implements Runnable {
     @Override
     public void run() {
         while (running) {
-            render();
+            try {
+                render();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         stop();
     }
 
-    private void render() {
+    private void render() throws IOException {
         BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
@@ -72,7 +77,7 @@ public class Game extends Canvas implements Runnable {
         // Draw game objects
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH, HEIGHT);
-
+        g.drawString("Position: " + player.getX() + ", " + player.getZ(), 10, 70);
         // Draw world
         world.render(g);
 

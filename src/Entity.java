@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.IOException;
 
 public class Entity {
 
@@ -27,7 +28,7 @@ public class Entity {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics g) throws IOException {
 
     }
 
